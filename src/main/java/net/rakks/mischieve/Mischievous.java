@@ -2,6 +2,7 @@ package net.rakks.mischieve;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.rakks.mischieve.registeries.ItemRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,5 +21,6 @@ public class Mischievous implements ModInitializer {
 		// Proceed with mild caution.
 
 		LOGGER.info("Hello Fabric world!");
+		ItemRegistry.registerItems();
 	}
 }
