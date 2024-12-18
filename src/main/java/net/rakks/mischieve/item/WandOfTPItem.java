@@ -1,4 +1,4 @@
-package net.rakks.mischieve.items;
+package net.rakks.mischieve.item;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;

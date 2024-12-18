@@ -1,4 +1,4 @@
-package net.rakks.mischieve.registeries;
+package net.rakks.mischieve.item;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
@@ -6,7 +6,6 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.rakks.mischieve.Mischievous;
-import net.rakks.mischieve.items.WandOfTPItem;
 
 public class ItemRegistry {
     public static final Item WAND_OF_TELEPORTATION = registerItem("wand_of_teleport",

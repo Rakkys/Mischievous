@@ -2,7 +2,7 @@ package net.rakks.mischieve;
 
 import net.fabricmc.api.ModInitializer;
 
-import net.rakks.mischieve.registeries.ItemRegistry;
+import net.rakks.mischieve.item.ItemRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
