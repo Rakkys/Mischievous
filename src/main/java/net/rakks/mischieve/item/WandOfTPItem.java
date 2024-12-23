@@ -29,11 +29,13 @@ public class WandOfTPItem extends Item {
         super(settings);
     }
 
-    public void resetNBT(ItemStack Item, PlayerEntity user) {
+    public void resetNBT(ItemStack Item, PlayerEntity user, boolean updateNBT) {
         NbtCompound nbtData = new NbtCompound();
 
         Item.setNbt(nbtData);
-        setNBT(Item, user);
+        if (updateNBT) {
+            setNBT(Item, user);
+        }
     }
 
     public void setNBT(ItemStack Item, PlayerEntity user) {
@@ -64,7 +66,7 @@ public class WandOfTPItem extends Item {
         ItemStack WandOfTP = user.getStackInHand(hand);
 
         if (user.isSneaking()) {
-            resetNBT(WandOfTP, user);
+            resetNBT(WandOfTP, user, true);
         } else if (!WandOfTP.hasNbt()) {
             setNBT(WandOfTP, user);
         } else {
@@ -78,20 +80,21 @@ public class WandOfTPItem extends Item {
                 RegistryKey<World> dimensionKey = RegistryKey.of(RegistryKeys.WORLD, dimensionId);
                 ServerWorld wandDimension = user.getServer().getWorld(dimensionKey);
 
-                // Work around because I couldn't figure out how to summon this particle normally.
-                user.teleport(user.getX(), user.getY(), user.getZ(), true);
+                teleportParticles(user);
 
-                // Flags are what is meant to be updated when teleported
+                //TODO: Make it so you teleport where you set the wand instead of a safe landing spot
+
                 Set<PositionFlag> flags = EnumSet.of(PositionFlag.X, PositionFlag.Y, PositionFlag.Z);
-                // Update X, Y, and Z
                 user.teleport(wandDimension, x, y, z, flags, user.getYaw(), user.getPitch());
 
-
-                // Work around because I couldn't figure out how to summon this particle normally.
-                user.teleport(user.getX(), user.getY(), user.getZ(), true);
+                teleportParticles(user);
             }
         }
         return TypedActionResult.success(user.getStackInHand(hand));
+    }
+
+    private void teleportParticles(PlayerEntity user) {
+        user.teleport(user.getX(), user.getY(), user.getZ(), true); // Particles!
     }
 
     @Override
@@ -105,12 +108,14 @@ public class WandOfTPItem extends Item {
 
     @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
-        NbtCompound itemNbt = stack.getNbt();
-        double x = itemNbt.getDouble("mischieve:WOT_x");
-        double y = itemNbt.getDouble("mischieve:WOT_y");
-        double z = itemNbt.getDouble("mischieve:WOT_z");
+        if (stack.hasNbt()) {
+            NbtCompound itemNbt = stack.getNbt();
+            double x = itemNbt.getDouble("mischieve:WOT_x");
+            double y = itemNbt.getDouble("mischieve:WOT_y");
+            double z = itemNbt.getDouble("mischieve:WOT_z");
 
-        tooltip.add(Text.literal(MessageFormat.format("({0}, {1}, {2})", x, y, z)));
+            tooltip.add(Text.literal(MessageFormat.format("({0}, {1}, {2})", x, y, z)));
+        }
         super.appendTooltip(stack, world, tooltip, context);
     }
 }
