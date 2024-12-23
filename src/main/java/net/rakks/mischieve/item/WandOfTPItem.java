@@ -6,7 +6,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.network.packet.s2c.play.PositionFlag;
-import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.server.world.ServerWorld;
@@ -21,7 +20,6 @@ import org.jetbrains.annotations.Nullable;
 import java.text.MessageFormat;
 import java.util.EnumSet;
 import java.util.List;
-import java.util.Objects;
 import java.util.Set;
 
 public class WandOfTPItem extends Item {
@@ -29,12 +27,12 @@ public class WandOfTPItem extends Item {
         super(settings);
     }
 
-    public void resetNBT(ItemStack Item, PlayerEntity user, boolean updateNBT) {
+    public void resetNBT(ItemStack item, PlayerEntity user, boolean updateNBT) {
         NbtCompound nbtData = new NbtCompound();
 
-        Item.setNbt(nbtData);
+        item.setNbt(nbtData);
         if (updateNBT) {
-            setNBT(Item, user);
+            setNBT(item, user);
         }
     }
 
@@ -47,10 +45,10 @@ public class WandOfTPItem extends Item {
         RegistryKey<World> dimensionKey = user.getWorld().getRegistryKey();
         Identifier dimensionId = dimensionKey.getValue();
 
-        nbtData.putDouble("mischieve:WOT_x", user_X);
-        nbtData.putDouble("mischieve:WOT_y", user_Y);
-        nbtData.putDouble("mischieve:WOT_z", user_Z);
-        nbtData.putString("mischieve:WOT_world", dimensionId.toString());
+        nbtData.putDouble("wand_x", user_X);
+        nbtData.putDouble("wand_y", user_Y);
+        nbtData.putDouble("wand_z", user_Z);
+        nbtData.putString("wand_world", dimensionId.toString());
 
         user.sendMessage(Text.literal(MessageFormat.format("({0}, {1}, {2})", user_X, user_Y, user_Z)), true);
 
@@ -63,22 +61,27 @@ public class WandOfTPItem extends Item {
             return TypedActionResult.pass(user.getStackInHand(hand));
         }
 
-        ItemStack WandOfTP = user.getStackInHand(hand);
+        ItemStack wandOfTP = user.getStackInHand(hand);
 
         if (user.isSneaking()) {
-            resetNBT(WandOfTP, user, true);
-        } else if (!WandOfTP.hasNbt()) {
-            setNBT(WandOfTP, user);
+            resetNBT(wandOfTP, user, true);
+        } else if (!wandOfTP.hasNbt()) {
+            setNBT(wandOfTP, user);
         } else {
             if (user.getStackInHand(hand).hasNbt()) {
-                NbtCompound nbtData = WandOfTP.getNbt();
-                double x = nbtData.getDouble("mischieve:WOT_x");
-                double y = nbtData.getDouble("mischieve:WOT_y");
-                double z = nbtData.getDouble("mischieve:WOT_z");
+                NbtCompound nbtData = wandOfTP.getNbt();
+                double x = nbtData.getDouble("wand_x");
+                double y = nbtData.getDouble("wand_y");
+                double z = nbtData.getDouble("wand_z");
 
-                Identifier dimensionId = new Identifier(nbtData.getString("mischieve:WOT_world"));
+                Identifier dimensionId = new Identifier(nbtData.getString("wand_world"));
                 RegistryKey<World> dimensionKey = RegistryKey.of(RegistryKeys.WORLD, dimensionId);
                 ServerWorld wandDimension = user.getServer().getWorld(dimensionKey);
+
+                if (wandDimension == null) {
+                    user.sendMessage(Text.translatable("mischieve:WOT_invalid_dimension"));
+                    return TypedActionResult.fail(user.getStackInHand(hand));
+                }
 
                 teleportParticles(user);
 
@@ -110,9 +113,9 @@ public class WandOfTPItem extends Item {
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context) {
         if (stack.hasNbt()) {
             NbtCompound itemNbt = stack.getNbt();
-            double x = itemNbt.getDouble("mischieve:WOT_x");
-            double y = itemNbt.getDouble("mischieve:WOT_y");
-            double z = itemNbt.getDouble("mischieve:WOT_z");
+            double x = itemNbt.getDouble("wand_x");
+            double y = itemNbt.getDouble("wand_y");
+            double z = itemNbt.getDouble("wand_z");
 
             tooltip.add(Text.literal(MessageFormat.format("({0}, {1}, {2})", x, y, z)));
         }
