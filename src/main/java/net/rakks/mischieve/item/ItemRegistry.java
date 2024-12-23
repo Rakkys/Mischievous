@@ -14,7 +14,7 @@ public class ItemRegistry {
     public static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, new Identifier(Mischievous.MOD_ID, name), item);
     }
-
+    
     public static void registerItems() {
 
     }
