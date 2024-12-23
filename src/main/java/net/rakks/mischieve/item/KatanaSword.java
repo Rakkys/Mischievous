@@ -20,6 +20,8 @@ import net.minecraft.world.World;
 import java.util.List;
 
 public class KatanaSword extends SwordItem {
+    private final double CRIT_CHARGE = 3.5;
+
     public KatanaSword() {
         super(ToolMaterials.IRON, 3, -2.4F, new Item.Settings());
     }
@@ -39,8 +41,21 @@ public class KatanaSword extends SwordItem {
 
     @Override
     public void usageTick(World world, LivingEntity user, ItemStack stack, int remainingUseTicks) {
-        super.usageTick(world, user, stack, remainingUseTicks);
-        //TODO: Make it so that it ticks while you charge so you know what you're at
+        // Creates flashes and plays noise per increase in damage, range and entity count
+
+        PlayerEntity player = (PlayerEntity) user;
+        int useDuration = this.getMaxUseTime(stack) - remainingUseTicks;
+        float charge = (float) useDuration / 20F;
+
+        if ((charge % 0.5 == 0) && (charge > 0)) {
+            world.addParticle(ParticleTypes.FLASH, player.getX(), player.getY(), player.getZ(), 0, 0, 0);
+
+            if (charge < CRIT_CHARGE) {
+                player.playSound(SoundEvents.BLOCK_IRON_DOOR_OPEN, SoundCategory.PLAYERS, 1F, 1F);
+            } else if (charge >= CRIT_CHARGE) {
+                player.playSound(SoundEvents.BLOCK_ANVIL_DESTROY, SoundCategory.PLAYERS, 0.5F, 1F);
+            }
+        }
     }
 
     @Override
@@ -61,9 +76,15 @@ public class KatanaSword extends SwordItem {
 
                 damage = damage * (charge / 0.5F);
 
-                if (charge >= 2.5F) {
+                if (charge >= CRIT_CHARGE) {
                     damage = damage * 2;
                 }
+
+                int target_amount = 3;
+
+                target_amount = (int) (target_amount + (charge / 0.5));
+
+                //TODO: Make it so that it can only hit a certain amount of entities
 
                 Box box = new Box(playerPos.add(-radius, -radius, -radius), playerPos.add(+radius, +radius, +radius));
 
@@ -90,7 +111,7 @@ public class KatanaSword extends SwordItem {
                             SoundEvents.ENTITY_PLAYER_ATTACK_SWEEP, SoundCategory.PLAYERS,
                             1f, 1f);
 
-                    if (charge >= 2.5F) {
+                    if (charge >= CRIT_CHARGE) {
                         spawnParticles(ParticleTypes.CRIT, world, entity);
                     }
 
