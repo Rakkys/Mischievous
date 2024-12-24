@@ -16,5 +16,6 @@ public class MischievousEnglishLanguageProvider extends FabricLanguageProvider {
     public void generateTranslations(TranslationBuilder translationBuilder) {
         translationBuilder.add(ItemRegistry.WAND_OF_TELEPORTATION, "Wand of teleportation");
         translationBuilder.add(ItemRegistry.KATANA, "Katana");
+        translationBuilder.add(ItemRegistry.GEM_GEODE, "Gem Geode");
     }
 }
