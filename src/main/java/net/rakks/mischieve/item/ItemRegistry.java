@@ -15,6 +15,9 @@ public class ItemRegistry {
     public static final SwordItem KATANA = (SwordItem) registerItem("katana",
             new KatanaSword());
 
+    public static final Item GEM_GEODE = registerItem("gem_geode",
+            new GeodeItem(new FabricItemSettings().maxCount(16)));
+
     public static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, new Identifier(Mischievous.MOD_ID, name), item);
     }
