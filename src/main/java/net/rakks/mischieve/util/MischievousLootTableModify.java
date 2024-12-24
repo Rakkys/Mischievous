@@ -1,4 +1,4 @@
-package net.rakks.mischieve.Util;
+package net.rakks.mischieve.util;
 
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.loot.LootPool;

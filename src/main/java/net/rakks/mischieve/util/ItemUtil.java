@@ -1,4 +1,4 @@
-package net.rakks.mischieve.Util;
+package net.rakks.mischieve.util;
 
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
