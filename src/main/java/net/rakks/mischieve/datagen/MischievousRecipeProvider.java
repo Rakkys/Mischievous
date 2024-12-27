@@ -5,6 +5,8 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.tag.convention.v1.ConventionalItemTags;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
+import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.rakks.mischieve.item.ItemRegistry;
@@ -49,6 +51,24 @@ public class MischievousRecipeProvider extends FabricRecipeProvider {
                 .input('r', Items.FEATHER)
                 .criterion(FabricRecipeProvider.hasItem(Items.NETHERITE_INGOT),
                         FabricRecipeProvider.conditionsFromItem(Items.NETHERITE_INGOT))
+                .offerTo(consumer);
+    }
+
+    public void generateCompact(ItemConvertible input, ItemConvertible result,
+                                RecipeCategory recipeCategory, Consumer<RecipeJsonProvider> consumer) {
+        ShapelessRecipeJsonBuilder.create(recipeCategory, result)
+                .input(input, 9)
+                .criterion(FabricRecipeProvider.hasItem(input),
+                        FabricRecipeProvider.conditionsFromItem(input))
+                .offerTo(consumer);
+    }
+
+    public void generateUncompact(ItemConvertible input, ItemConvertible result,
+                                  RecipeCategory recipeCategory, Consumer<RecipeJsonProvider> consumer) {
+        ShapelessRecipeJsonBuilder.create(recipeCategory, result)
+                .input(input)
+                .criterion(FabricRecipeProvider.hasItem(input),
+                        FabricRecipeProvider.conditionsFromItem(input))
                 .offerTo(consumer);
     }
 }
