@@ -18,6 +18,9 @@ public class ItemRegistry {
     public static final Item GEM_GEODE = registerItem("gem_geode",
             new GeodeItem(new FabricItemSettings().maxCount(16)));
 
+    public static final Item MAGIC_MIRROR = registerItem("magic_mirror",
+            new MagicMirrorItem(new FabricItemSettings().maxCount(1)));
+
     public static Item registerItem(String name, Item item) {
         return Registry.register(Registries.ITEM, new Identifier(Mischievous.MOD_ID, name), item);
     }
