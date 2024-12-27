@@ -48,13 +48,15 @@ public class KatanaSword extends SwordItem {
         float charge = (float) useDuration / 20F;
 
         if ((charge % 0.5 == 0) && (charge > 0)) {
-            world.addParticle(ParticleTypes.FLASH, player.getX(), player.getY(), player.getZ(), 0, 0, 0);
+            world.addParticle(ParticleTypes.FLASH, player.getX(), player.getY() + 1, player.getZ(), 0, 0, 0);
 
             if (charge < CRIT_CHARGE) {
                 player.playSound(SoundEvents.BLOCK_IRON_DOOR_OPEN, SoundCategory.PLAYERS, 1F, 1F);
             } else if (charge >= CRIT_CHARGE) {
                 player.playSound(SoundEvents.BLOCK_ANVIL_DESTROY, SoundCategory.PLAYERS, 0.5F, 1F);
             }
+
+            //TODO: Figure out how to add noteblock noises
         }
     }
 
@@ -90,9 +92,9 @@ public class KatanaSword extends SwordItem {
 
                 List<LivingEntity> entities = world.getEntitiesByClass(LivingEntity.class, box, entity -> entity != player);
 
-                ((PlayerEntity) user).sendMessage(Text.literal("DEBUGGING: Charge is at " + charge));
-                ((PlayerEntity) user).sendMessage(Text.literal("DEBUGGING: Damage is at " + damage));
-                ((PlayerEntity) user).sendMessage(Text.literal("DEBUGGING: Range is at " + radius));
+                ((PlayerEntity) user).sendMessage(Text.literal("KatanaSword.charge == " + charge));
+                ((PlayerEntity) user).sendMessage(Text.literal("KatanaSword.damage == " + damage));
+                ((PlayerEntity) user).sendMessage(Text.literal("KatanaSword.range  == " + radius));
 
                 for (LivingEntity entity : entities) {
                     DamageSource damageSource = new DamageSource(
