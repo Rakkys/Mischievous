@@ -17,6 +17,7 @@ import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.rakks.mischieve.Mischievous;
+import net.rakks.mischieve.registries.GameRulesRegistry;
 
 import java.util.Set;
 
@@ -35,7 +36,7 @@ public class MagicMirrorItem extends Item {
             return TypedActionResult.consume(itemStack);
         }
 
-        if (user.getWorld().getGameRules().getBoolean(Mischievous.INSTANT_MAGIC_MIRROR)) {
+        if (user.getWorld().getGameRules().getBoolean(GameRulesRegistry.INSTANT_MAGIC_MIRROR)) {
             ServerPlayerEntity player = (ServerPlayerEntity) user;
             teleportUser(player);
 
