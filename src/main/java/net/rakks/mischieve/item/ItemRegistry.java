@@ -21,7 +21,7 @@ public class ItemRegistry {
     public static final Item MAGIC_MIRROR = registerItem("magic_mirror",
             new MagicMirrorItem(new FabricItemSettings().maxCount(1)));
 
-    public static final Item FLIGHT_FEATHER = registerItem("flight_feature",
+    public static final Item FLIGHT_FEATHER = registerItem("flight_feather",
             new FlightFeatherItem(new FabricItemSettings().maxCount(1)));
 
     public static Item registerItem(String name, Item item) {

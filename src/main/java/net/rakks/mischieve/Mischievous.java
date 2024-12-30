@@ -5,6 +5,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleFactory;
 import net.fabricmc.fabric.api.gamerule.v1.GameRuleRegistry;
 import net.minecraft.world.GameRules;
+import net.rakks.mischieve.registries.GameRulesRegistry;
+import net.rakks.mischieve.registries.PotionRegistry;
 import net.rakks.mischieve.util.MischievousLootTableModify;
 import net.rakks.mischieve.item.ItemRegistry;
 import org.slf4j.Logger;
@@ -26,6 +28,8 @@ public class Mischievous implements ModInitializer {
 
 		LOGGER.info("Hello Fabric world!");
 		ItemRegistry.registerItems();
+		GameRulesRegistry.registerGameRules();
+		PotionRegistry.registerEffects();
 
 		MischievousLootTableModify.modifyLootTables();
 	}

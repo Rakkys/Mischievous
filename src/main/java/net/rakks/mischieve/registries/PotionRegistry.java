@@ -14,4 +14,8 @@ public class PotionRegistry {
     public static StatusEffect registerEffect(String name, StatusEffect effect) {
         return Registry.register(Registries.STATUS_EFFECT, new Identifier(Mischievous.MOD_ID, name), effect);
     }
+
+    public static void registerEffects() {
+
+    }
 }
