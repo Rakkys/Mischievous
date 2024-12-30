@@ -13,10 +13,6 @@ import org.slf4j.LoggerFactory;
 public class Mischievous implements ModInitializer {
 	public static final String MOD_ID = "mischievous";
 
-	// No clue where to put this
-	public static final GameRules.Key<GameRules.BooleanRule> INSTANT_MAGIC_MIRROR =
-			GameRuleRegistry.register("instantMagicMirror", GameRules.Category.PLAYER, GameRuleFactory.createBooleanRule(false));
-
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
